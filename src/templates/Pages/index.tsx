@@ -8,20 +8,20 @@ import {
   Heading,
 } from './styles';
 
-const PageTemplate = () => {
+export type PageTemplateProps = {
+  heading: string;
+  body: string;
+}
+
+const PageTemplate = ({ heading, body } : PageTemplateProps ) => {
   return (
     <Content>
       <LinkWrapper href="/" >
         <CloseOutline size={32}  />
       </LinkWrapper>
-      <Heading>My Ttrips</Heading>
+      <Heading>{heading}</Heading>
       <Body>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab maxime nulla veniam alias nobis nesciunt minus, 
-          repudiandae quam excepturi dolorum ex voluptate dolorem fuga consequatur, ea ipsam. Vel, iste laboriosam.
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum non, labore laborum similique velit, quis
-          blanditiis esse, sed unde amet aperiam optio ratione. Exercitationem eos ut perspiciatis maxime asperiores laudantium.
-        </p>
+        <div dangerouslySetInnerHTML={{ __html: body }}/>
       </Body>
     </Content>
   )
