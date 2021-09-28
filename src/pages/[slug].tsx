@@ -1,5 +1,9 @@
 import client from 'graphql/client';
 import {
+  GetPageBySlugQuery,
+  GetPagesQuery,
+} from 'graphql/generated/graphql';
+import {
   GET_PAGE_BY_SLUG,
   GET_PAGES,
 } from 'graphql/queries';
@@ -17,7 +21,7 @@ export default function Page({ heading, body } : PageTemplateProps) {
 }
 
 export async function getStaticPaths() {
-  const { pages } = await client.request(GET_PAGES, { first: 3 });
+  const { pages } = await client.request<GetPagesQuery>(GET_PAGES, { first: 3 });
 
   const paths = pages.map(({ slug }) => ({
     params: { slug }
@@ -27,13 +31,13 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { page } = await client.request(GET_PAGE_BY_SLUG, { slug: `${params?.slug}`});
+  const { page } = await client.request<GetPageBySlugQuery>(GET_PAGE_BY_SLUG, { slug: `${params?.slug}`});
 
   if (!page) return { notFound: true } 
   return {
     props: {
       heading: page.heading,
-      body: page.body.html 
+      body: page.body.html
     }
   }
 }
